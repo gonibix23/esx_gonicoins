@@ -45,7 +45,7 @@ CreateThread(function()
 				TriggerServerEvent('esx_gonicoins:collectBitcoin')
 			end
 			if selling == true then
-				TriggerServerEvent('esx_gonicoins:sellBitcoin', "bitcoin", Config.CantidadDeBitcoinsQueVendes)
+				TriggerServerEvent('esx_gonicoins:sellBitcoin', "bitcoin", Config.NumeroDeBitcoinsVendes)
 			end
 		--Aqui tiene que ir donde te da la moneda
 	end
