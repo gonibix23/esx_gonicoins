@@ -5,12 +5,11 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 RegisterServerEvent('esx_gonicoins:collectBitcoin')
 AddEventHandler('esx_gonicoins:collectBitcoin', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local cime = math.random(1,3)
 	local ran = math.random(1, Config.ProbabilidadDeRomperDisco)
 	if xPlayer.getInventoryItem('portatil').count >= 1 then 
 		if xPlayer.getInventoryItem('discoduro').count >= 1 then
-			if xPlayer.canCarryItem('bitcoin', cime)  then
-				xPlayer.addInventoryItem('bitcoin', cime)
+			if xPlayer.canCarryItem('bitcoin', Config.NumeroDeBitcoinsCoges) and xPlayer.getInventoryItem('bitcoin').count < 50 then
+				xPlayer.addInventoryItem('bitcoin', Config.NumeroDeBitcoinsCoges)
 				if ran <= 1 then
 					xPlayer.removeInventoryItem('discoduro', 1)
 					xPlayer.showHelpNotification("~b~Se te ha roto un disco duro~b~", false, true, 5000)
