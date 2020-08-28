@@ -15,3 +15,12 @@ client_scripts {
 	'config.lua',
 	'client/main.lua'
 }
+
+ui_page 'html/index.html'
+
+files {
+	'html/index.html',
+	'html/syle.css',
+	'html/reset.css',
+	'html/listener.js'
+}

@@ -4,6 +4,7 @@ local isInside = false
 local isFarming = false
 local collecting = false
 local selling = false
+local display = false
 
 
 Citizen.CreateThread(function()
@@ -23,6 +24,22 @@ AddEventHandler('esx:setJob', function(job)
   PlayerData.job = job
 end)
 
+RegisterNetEvent('nui:on')
+AddEventHandler('nui:on', function(value)
+	SendNUIMessage({
+		type = 'ui',
+		display = true
+	})
+end)
+
+RegisterNetEvent('nui:off')
+AddEventHandler('nui:off', function(value)
+	SendNUIMessage({
+		type = 'ui',
+		display = false
+	})
+end)
+
 CreateThread(function() --Marcadores
 	while true do
 		Citizen.Wait(0)
@@ -35,6 +52,21 @@ CreateThread(function() --Comprobación de marcadores
 	while true do
 		Citizen.Wait(0)
 		isDentro()
+		--if collecting == true then
+		--	TriggerEvent("nui:on", true)
+		--else
+		--	TriggerEvent("nui:off", true)
+		--end
+		--if selling == true then
+		--	TriggerEvent("nui:on", true)
+		--else
+		--	
+		--end
+		if isInside == true and isFarming == true then
+			TriggerEvent("nui:on", true)
+		else
+			TriggerEvent("nui:off", true)
+		end
 	end
 end)
 
@@ -67,9 +99,8 @@ function isDentro()
 					else
 						ESX.ShowNotification("~b~Has empezado a vender~b~ ~y~Bitcoins~y~", false, true, 50)
 					end
-
-					spawnLaptop()
 					FreezeEntityPosition(PlayerPedId(-1), true)
+					spawnLaptop()
 					isFarming = true
 				end
 			else
@@ -84,7 +115,6 @@ function isDentro()
 				else
 					ESX.ShowNotification("~b~Has dejado de vender~b~ ~y~Bitcoins~y~", false, true, 50)
 				end
-
 				DeleteObject(obj)
 				TaskStartScenarioInPlace(PlayerPedId(-1), "PROP_HUMAN_SEAT_COMPUTER", 0, false)
 				Citizen.Wait(1500)
@@ -128,6 +158,6 @@ function spawnLaptop() --Generar portatil y silla
 	SetEntityAsMissionEntity(obj1)
 	SetEntityCoords(PlayerPedId(-1), GetEntityCoords(PlayerPedId(-1)).x,GetEntityCoords(PlayerPedId(-1)).y,GetEntityCoords(PlayerPedId(-1)).z-1.5, false, false, false, true)
 	SetEntityQuaternion(PlayerPedId(-1), 0, 0, 0, 0)
-	TaskStartScenarioInPlace(PlayerPedId(-1), "PROP_HUMAN_SEAT_COMPUTER", 0, true)
 	PlaySound(l_208, "SELECT", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
+	TaskStartScenarioInPlace(PlayerPedId(-1), "PROP_HUMAN_SEAT_COMPUTER", 0, true)
 end
