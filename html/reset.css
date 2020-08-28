@@ -46,3 +46,22 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+#myProgress {
+	position:absolute;
+	top: 55%;
+	left: 34%;
+	width: 40%;
+	background-color: grey;
+}
+  
+#myBar {
+	width: 1%;
+	height: 30px;
+	background-color: red;
+}
+#myPoint {
+	position: absolute;
+	width: 3%;
+	height: 30px;
+	background-color: yellow;
+}

@@ -22,3 +22,15 @@
 .small {
 	font-size: 25px;
 }
+#myProgress {
+    position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 40%;
+	background-color: grey;
+}
+#myBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+}

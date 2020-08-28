@@ -5,7 +5,7 @@ local isFarming = false
 local collecting = false
 local selling = false
 local display = false
-
+local randomNum = 0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -26,9 +26,12 @@ end)
 
 RegisterNetEvent('nui:on')
 AddEventHandler('nui:on', function(value)
+	randomNum = math.random(0, 50)
 	SendNUIMessage({
 		type = 'ui',
-		display = true
+		display = true,
+		randomNum = randomNum,
+		tiempoFarm = Config.TiempoDeVentaYRecolecta
 	})
 end)
 
@@ -43,6 +46,9 @@ end)
 CreateThread(function() --Marcadores
 	while true do
 		Citizen.Wait(0)
+		if isInside == false and isFarming == false then
+			TriggerEvent("nui:off", true)
+		end
 		DrawMarker(Config.MarkType, Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
 		DrawMarker(Config.MarkType, Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
 	end
@@ -50,13 +56,8 @@ end)
 
 CreateThread(function() --Comprobación de marcadores
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(0)	
 		isDentro()
-		if isInside == true and isFarming == true then
-			TriggerEvent("nui:on", true)
-		else
-			TriggerEvent("nui:off", true)
-		end
 	end
 end)
 
@@ -84,6 +85,7 @@ function isDentro()
 					ESX.ShowHelpNotification('~b~Presiona ~INPUT_CONTEXT~ para empezar a vender~b~ ~y~Bitcoins~y~')
 				end
 				if IsControlJustPressed(0, 54) then
+					TriggerEvent("nui:on", true)
 					if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 						ESX.ShowNotification("~b~Has empezado a minar~b~ ~y~Bitcoins~y~", false, true, 50)
 					else
@@ -116,7 +118,9 @@ function isDentro()
 				isInside = false
 				collecting = false
 				selling = false
+				TriggerEvent("nui:off", true)
 				Citizen.Wait(2000)
+				do return end
 			end
 			if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 or GetDistanceBetweenCoords(Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 				if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then

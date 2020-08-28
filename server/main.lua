@@ -32,10 +32,11 @@ AddEventHandler('esx_gonicoins:sellBitcoin', function(itemName, amount)
 
 	if xPlayer.getInventoryItem('portatil').count >= 1 then 
 		if xPlayer.getInventoryItem('discoduro').count >= 1 then
-			xPlayer.addAccountMoney('black_money', Config.Precio)
-    		xPlayer.removeInventoryItem(xItem.name, amount)
-    		if xPlayer.getInventoryItem(itemName).count == 0 then
-    		    xPlayer.showHelpNotification("~b~No te quedan~b~ ~y~Bitcoins~y~", false, true, 5000)
+			if xPlayer.getInventoryItem(itemName).count >= 1 then
+				xPlayer.addAccountMoney('black_money', Config.Precio)
+    			xPlayer.removeInventoryItem(xItem.name, amount)
+			else
+				xPlayer.showHelpNotification("~b~No te quedan~b~ ~y~Bitcoins~y~", false, true, 5000)
 			end
 		else
 			xPlayer.showHelpNotification("~b~Necesitas los discos duros donde has almacenado los~b~ ~y~Bitcoins~ys~", false, true, 5000)
