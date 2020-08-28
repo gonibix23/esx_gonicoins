@@ -52,16 +52,6 @@ CreateThread(function() --Comprobación de marcadores
 	while true do
 		Citizen.Wait(0)
 		isDentro()
-		--if collecting == true then
-		--	TriggerEvent("nui:on", true)
-		--else
-		--	TriggerEvent("nui:off", true)
-		--end
-		--if selling == true then
-		--	TriggerEvent("nui:on", true)
-		--else
-		--	
-		--end
 		if isInside == true and isFarming == true then
 			TriggerEvent("nui:on", true)
 		else
