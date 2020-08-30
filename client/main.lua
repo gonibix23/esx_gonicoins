@@ -6,6 +6,10 @@ local collecting = false
 local selling = false
 local display = false
 local randomNum = 0
+local Zonas = {
+	RecolectaBit = {x = 0,	y = 0, z = 0},
+    VentaBit =	{x = 0,	y = 0, z = 0}
+}
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -43,14 +47,32 @@ AddEventHandler('nui:off', function(value)
 	})
 end)
 
+CreateThread(function()
+	Citizen.Wait(0)
+	ESX.TriggerServerCallback('esx_gonicoins:positions', function(xZonas)
+		Zonas.VentaBit.x = xZonas.VentaBit.x
+		Zonas.VentaBit.y = xZonas.VentaBit.y
+		Zonas.VentaBit.z = xZonas.VentaBit.z
+		Zonas.RecolectaBit.x = xZonas.RecolectaBit.x
+		Zonas.RecolectaBit.y = xZonas.RecolectaBit.y
+		Zonas.RecolectaBit.z = xZonas.RecolectaBit.z
+	end)
+end)
+
 CreateThread(function() --Marcadores
 	while true do
 		Citizen.Wait(0)
+		DrawMarker(Config.MarkType, Zonas.VentaBit.x, Zonas.VentaBit.y, Zonas.VentaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
+		DrawMarker(Config.MarkType, Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
+	end
+end)
+
+CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
 		if isInside == false and isFarming == false then
 			TriggerEvent("nui:off", true)
 		end
-		DrawMarker(Config.MarkType, Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
-		DrawMarker(Config.MarkType, Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z-1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 2.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 80, false, true, 2, nil, nil, false)
 	end
 end)
 
@@ -77,16 +99,16 @@ end)
 function isDentro()
 	if IsPedInAnyVehicle(PlayerPedId(-1), true) == false then
 		if  isFarming == false then
-			if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 or GetDistanceBetweenCoords(Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+			if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 or GetDistanceBetweenCoords(Zonas.VentaBit.x, Zonas.VentaBit.y, Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 				isInside = true
-				if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+				if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 					ESX.ShowHelpNotification('~b~Presiona ~INPUT_CONTEXT~ para empezar a minar~b~ ~y~Bitcoins~y~')
 				else
 					ESX.ShowHelpNotification('~b~Presiona ~INPUT_CONTEXT~ para empezar a vender~b~ ~y~Bitcoins~y~')
 				end
 				if IsControlJustPressed(0, 54) then
 					TriggerEvent("nui:on", true)
-					if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+					if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 						ESX.ShowNotification("~b~Has empezado a minar~b~ ~y~Bitcoins~y~", false, true, 50)
 					else
 						ESX.ShowNotification("~b~Has empezado a vender~b~ ~y~Bitcoins~y~", false, true, 50)
@@ -102,7 +124,7 @@ function isDentro()
 			end
 		elseif isFarming == true then
 			if IsControlJustPressed(0, 54) then
-				if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+				if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 					ESX.ShowNotification("~b~Has dejado de minar~b~ ~y~Bitcoins~y~", false, true, 50)
 				else
 					ESX.ShowNotification("~b~Has dejado de vender~b~ ~y~Bitcoins~y~", false, true, 50)
@@ -122,10 +144,10 @@ function isDentro()
 				Citizen.Wait(2000)
 				do return end
 			end
-			if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 or GetDistanceBetweenCoords(Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
-				if GetDistanceBetweenCoords(Config.Zonas.RecolectaBit.x, Config.Zonas.RecolectaBit.y, Config.Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+			if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 or GetDistanceBetweenCoords(Zonas.VentaBit.x, Zonas.VentaBit.y, Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+				if GetDistanceBetweenCoords(Zonas.RecolectaBit.x, Zonas.RecolectaBit.y, Zonas.RecolectaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 					collecting = true
-				elseif GetDistanceBetweenCoords(Config.Zonas.VentaBit.x, Config.Zonas.VentaBit.y, Config.Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
+				elseif GetDistanceBetweenCoords(Zonas.VentaBit.x, Zonas.VentaBit.y, Zonas.VentaBit.z, GetEntityCoords(PlayerPedId(-1)).x, GetEntityCoords(PlayerPedId(-1)).y, GetEntityCoords(PlayerPedId(-1)).z, false) < 1 then
 					selling = true
 				end
 			else

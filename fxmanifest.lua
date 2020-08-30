@@ -4,7 +4,7 @@ game 'gta5'
 
 description 'Bitcoins Farm by gonibix23'
 
-version '1.0.0'
+version '2.0.0'
 
 server_scripts {
 	'config.lua',

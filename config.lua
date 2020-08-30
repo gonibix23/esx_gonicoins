@@ -1,11 +1,6 @@
 Config = {}
 Config.MarkerColor = {r = 0, g = 0, b = 0}
 
-Config.Zonas = {
-	RecolectaBit = {x = -1218.23,	y = -3207.2, z = 13.94},
-    VentaBit =	{x = -1226.23,	y = -3207.2, z = 13.94}
-}
-
 Config.Precio = 300 -- Precio
 Config.TiempoDeVentaYRecolecta = 4 -- Tiempo de recolecta y venta
 Config.NumeroDeBitcoinsCoges = 1 --Número de Bitcoins que recoges

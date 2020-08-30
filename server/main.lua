@@ -2,6 +2,15 @@ ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+ESX.RegisterServerCallback('esx_gonicoins:positions', function(source, cb)
+	local xPlayer = ESX.GetPlayerFromId(source)
+    local xZonas = {
+		RecolectaBit = {x = -1218.23,	y = -3207.2, z = 13.94},
+		VentaBit =	{x = -1226.23,	y = -3207.2, z = 13.94}
+	}
+    cb(xZonas)
+end)
+
 RegisterServerEvent('esx_gonicoins:collectBitcoin')
 AddEventHandler('esx_gonicoins:collectBitcoin', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
