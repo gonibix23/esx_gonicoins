@@ -70,6 +70,12 @@ end)
 CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
+		if GetEntityHealth(PlayerPedId(-1)) <= 0 then
+			isInside = false
+			isFarming = false
+			collecting = false
+			selling = false
+		end
 		if isInside == false and isFarming == false then
 			TriggerEvent("nui:off", true)
 		end
@@ -86,10 +92,10 @@ end)
 CreateThread(function()
 	while true do
 			Citizen.Wait(Config.TiempoDeVentaYRecolecta*1000)
-			if collecting == true then
+			if collecting == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
 				TriggerServerEvent('esx_gonicoins:collectBitcoin')
 			end
-			if selling == true then
+			if selling == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
 				TriggerServerEvent('esx_gonicoins:sellBitcoin', "bitcoin", Config.NumeroDeBitcoinsVendes)
 			end
 		--Aqui tiene que ir donde te da la moneda
