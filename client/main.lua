@@ -91,14 +91,13 @@ end)
 
 CreateThread(function()
 	while true do
-			Citizen.Wait(Config.TiempoDeVentaYRecolecta*1000)
-			if collecting == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
-				TriggerServerEvent('esx_gonicoins:collectBitcoin')
-			end
-			if selling == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
-				TriggerServerEvent('esx_gonicoins:sellBitcoin', "bitcoin", Config.NumeroDeBitcoinsVendes)
-			end
-		--Aqui tiene que ir donde te da la moneda
+		Citizen.Wait(Config.TiempoDeVentaYRecolecta*1000)
+		if collecting == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
+			TriggerServerEvent('esx_gonicoins:collectBitcoin')
+		end
+		if selling == true and GetEntityHealth(PlayerPedId(-1)) > 0 then
+			TriggerServerEvent('esx_gonicoins:sellBitcoin', "bitcoin", Config.NumeroDeBitcoinsVendes)
+		end
 	end
 end)
 
