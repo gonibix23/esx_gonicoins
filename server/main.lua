@@ -1,6 +1,8 @@
 ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+--RecolectaBit = {x = 1272.9,	y = -1711.71, z = 53.77},
+--VentaBit =	{x = 706.77, y = -966.9, z = 29.41}
 
 ESX.RegisterServerCallback('esx_gonicoins:positions', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -15,10 +17,15 @@ RegisterServerEvent('esx_gonicoins:collectBitcoin')
 AddEventHandler('esx_gonicoins:collectBitcoin', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local ran = math.random(1, Config.ProbabilidadDeRomperDisco)
+	local ran2 = math.random(1, Config.ProbabilidadDeUSB)
 	if xPlayer.getInventoryItem('portatil').count >= 1 then 
 		if xPlayer.getInventoryItem('discoduro').count >= 1 then
 			if xPlayer.canCarryItem('bitcoin', Config.NumeroDeBitcoinsCoges) and xPlayer.getInventoryItem('bitcoin').count < 50 then
 				xPlayer.addInventoryItem('bitcoin', Config.NumeroDeBitcoinsCoges)
+				if ran2 <= 1 then
+					xPlayer.addInventoryItem('usb', 1)
+					xPlayer.showHelpNotification("~b~Has encontrado un archivo con información muy valiosa por lo que se ve~b~", false, true, 5000)
+				end
 				if ran <= 1 then
 					xPlayer.removeInventoryItem('discoduro', 1)
 					xPlayer.showHelpNotification("~b~Se te ha roto un disco duro~b~", false, true, 5000)
