@@ -3,12 +3,14 @@ ESX = nil
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 --RecolectaBit = {x = 1272.9,	y = -1711.71, z = 53.77},
 --VentaBit =	{x = 706.77, y = -966.9, z = 29.41}
+	--RecolectaBit = {x = -1218.23,	y = -3207.2, z = 13.94},
+	--VentaBit =	{x = -1226.23,	y = -3207.2, z = 13.94}
 
 ESX.RegisterServerCallback('esx_gonicoins:positions', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
     local xZonas = {
-		RecolectaBit = {x = -1218.23,	y = -3207.2, z = 13.94},
-		VentaBit =	{x = -1226.23,	y = -3207.2, z = 13.94}
+		RecolectaBit = {x = 1272.9,	y = -1711.71, z = 53.77},
+		VentaBit =	{x = 706.77, y = -966.9, z = 29.41}
 	}
     cb(xZonas)
 end)
